@@ -140,13 +140,16 @@ fi
 rm -rf "$CC_PREFIX/lib/gcc/$TRIPLE"/*/include-fixed/ "$CC_PREFIX/lib/gcc/$TRIPLE"/*/include/stddef.h
 
 # make backwards-named compilers for easier cross-compiling
-(
+if [ -z $NO_BACKWARDS_NAMES ]
+then
+    (
     cd "$CC_PREFIX/bin"
     for tool in $TRIPLE-*
     do
         btool=`echo "$tool" | sed 's/-linux-musl/-musl-linux/'`
         [ "$tool" != "$btool" -a ! -e "$btool" ] && ln -s $tool $btool
     done
-)
+    )
+fi
 
 exit 0
